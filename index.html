@@ -13,299 +13,148 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --green:#1a5c35;
-  --green2:#2d8a55;
-  --green3:#3da668;
-  --green-light:#e8f5ee;
-  --green-mid:#b7dfc7;
-  --amber:#f59e0b;
-  --amber-light:#fef3c7;
-  --red:#e53e3e;
-  --red-light:#fff0f0;
-  --bg:#f2f7f4;
-  --surface:#ffffff;
-  --text:#0f2d1a;
-  --text2:#3d6b50;
-  --text3:#7aaa8a;
+  --green:#1a5c35;--green2:#2d8a55;--green3:#3da668;
+  --green-light:#e8f5ee;--green-mid:#b7dfc7;
+  --amber:#f59e0b;--amber-light:#fef3c7;
+  --red:#e53e3e;--red-light:#fff0f0;
+  --bg:#f2f7f4;--surface:#fff;
+  --text:#0f2d1a;--text2:#3d6b50;--text3:#7aaa8a;
   --border:#dceee3;
   --r:18px;--r2:12px;--r3:28px;
 }
-html,body{
-  height:100%;
-  font-family:'M PLUS 1p',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  overscroll-behavior:none;
-}
-body{
-  display:flex;flex-direction:column;
-  max-width:480px;margin:0 auto;
-  min-height:100dvh;
-  position:relative;
-}
+html,body{height:100%;font-family:'M PLUS 1p',sans-serif;background:var(--bg);color:var(--text);overscroll-behavior:none}
+body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;min-height:100dvh}
 
-/* ── ヘッダー ── */
-.header{
-  background:var(--green);
-  padding:env(safe-area-inset-top) 0 0;
-  position:sticky;top:0;z-index:100;
-  box-shadow:0 2px 20px rgba(0,0,0,0.2);
-}
-.header-inner{
-  display:flex;align-items:center;gap:10px;
-  padding:14px 16px 12px;
-}
-.logo{
-  width:38px;height:38px;border-radius:12px;
-  background:rgba(255,255,255,0.18);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;flex-shrink:0;
-}
+/* ヘッダー */
+.header{background:var(--green);padding-top:env(safe-area-inset-top);position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.2)}
+.header-top{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.logo{width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .header-text{flex:1}
-.header-text h1{
-  font-family:'Zen Kaku Gothic New',sans-serif;
-  font-size:18px;font-weight:700;color:#fff;letter-spacing:0.03em;
-}
-.header-text p{font-size:11px;color:rgba(255,255,255,0.55);margin-top:2px}
-.sync-area{display:flex;align-items:center;gap:6px}
-.sync-dot{
-  width:9px;height:9px;border-radius:50%;
-  background:rgba(255,255,255,0.25);
-  transition:background .5s;flex-shrink:0;
-}
-.sync-ok{background:#4ade80}
-.sync-err{background:#f87171}
+.header-text h1{font-family:'Zen Kaku Gothic New',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:.03em}
+.header-text p{font-size:11px;color:rgba(255,255,255,.5);margin-top:1px}
+.sync-area{display:flex;align-items:center;gap:5px}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .5s;flex-shrink:0}
+.sync-ok{background:#4ade80}.sync-err{background:#f87171}
 .sync-ing{background:#fbbf24;animation:blink 1s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
-.sync-txt{font-size:10px;color:rgba(255,255,255,0.5)}
+.sync-txt{font-size:10px;color:rgba(255,255,255,.5)}
+
+/* タスクエリア */
+.task-area{background:rgba(0,0,0,.18);border-top:1px solid rgba(255,255,255,.1);padding:10px 12px}
+.task-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.task-head-lbl{font-family:'Zen Kaku Gothic New',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,.7);letter-spacing:.05em}
+.task-count-badge{background:var(--amber);color:#fff;font-size:10px;font-weight:700;border-radius:20px;padding:1px 7px}
+.task-add-row{display:flex;gap:6px;margin-bottom:8px}
+.task-inp{
+  flex:1;border:1.5px solid rgba(255,255,255,.2);border-radius:10px;padding:9px 12px;
+  font-size:13px;font-family:'M PLUS 1p',sans-serif;
+  background:rgba(255,255,255,.12);color:#fff;outline:none;transition:border .2s;min-width:0;
+}
+.task-inp::placeholder{color:rgba(255,255,255,.4)}
+.task-inp:focus{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.18)}
+.task-add-btn{
+  width:38px;height:38px;border-radius:10px;border:none;
+  background:var(--amber);color:#fff;font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1);
+}
+.task-add-btn:active{transform:scale(.88)}
+.task-scroll{display:flex;flex-direction:column;gap:5px;max-height:200px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.task-scroll:empty::after{content:'タスクはありません 🌱';font-size:12px;color:rgba(255,255,255,.35);padding:6px 0;display:block;text-align:center}
+.task-item{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.1);border-radius:10px;padding:9px 10px;
+  animation:slideIn .25s ease;transition:opacity .3s;
+}
+@keyframes slideIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+.task-item.done{opacity:.45}
+.task-item.done .task-name{text-decoration:line-through}
+.task-name{flex:1;font-size:13px;color:#fff;line-height:1.4;word-break:break-all}
+.task-expire{font-size:10px;color:rgba(255,255,255,.35);flex-shrink:0;white-space:nowrap}
+.complete-btn{
+  border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 10px;
+  font-size:11px;font-weight:700;font-family:'M PLUS 1p',sans-serif;
+  background:none;color:rgba(255,255,255,.7);cursor:pointer;
+  transition:all .2s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;flex-shrink:0;
+}
+.complete-btn:active{transform:scale(.9)}
+.task-item.done .complete-btn{background:var(--green3);border-color:var(--green3);color:#fff}
+.task-del{background:none;border:none;color:rgba(255,255,255,.3);font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0;transition:color .15s}
+.task-del:active{color:var(--red)}
 
 /* 月ナビ */
-.month-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 16px 14px;
-}
-.month-label{
-  font-family:'Zen Kaku Gothic New',sans-serif;
-  font-size:20px;font-weight:700;color:#fff;
-}
-.month-sub{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px}
-.nav-btn{
-  width:40px;height:40px;border-radius:50%;border:none;
-  background:rgba(255,255,255,0.15);
-  color:#fff;font-size:20px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .2s cubic-bezier(.34,1.56,.64,1);
-}
-.nav-btn:active{transform:scale(0.88);background:rgba(255,255,255,0.25)}
+.month-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 14px}
+.month-label{font-family:'Zen Kaku Gothic New',sans-serif;font-size:20px;font-weight:700;color:#fff}
+.month-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px}
+.nav-btn{width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,.15);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s cubic-bezier(.34,1.56,.64,1)}
+.nav-btn:active{transform:scale(.88);background:rgba(255,255,255,.25)}
 
-/* ── スクロールコンテンツ ── */
-.scroll-body{
-  flex:1;overflow-y:auto;
-  padding:0 0 32px;
-  -webkit-overflow-scrolling:touch;
-}
+/* スクロールエリア */
+.scroll-body{flex:1;overflow-y:auto;padding:0 0 40px;-webkit-overflow-scrolling:touch}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:14px}
+.spinner{width:36px;height:36px;border-radius:50%;border:3px solid var(--green-mid);border-top-color:var(--green);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{font-size:13px;color:var(--text3)}
 
-/* 名前ヘッダー */
-.names-bar{
-  display:flex;align-items:center;
-  background:#fff;
-  border-bottom:1.5px solid var(--border);
-  padding:10px 16px;gap:4px;
-  position:sticky;top:0;z-index:50;
-  box-shadow:0 2px 8px rgba(0,0,0,0.05);
-}
+/* 名前バー */
+.names-bar{display:flex;align-items:center;background:#fff;border-bottom:1.5px solid var(--border);padding:10px 16px;gap:4px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.05)}
 .name-spacer{width:54px;flex-shrink:0}
 .name-col{flex:1;text-align:center}
-.name-input{
-  background:none;border:none;
-  border-bottom:2px dashed transparent;
-  font-size:13px;font-weight:700;
-  font-family:'Zen Kaku Gothic New',sans-serif;
-  color:var(--green);text-align:center;
-  width:100%;padding:3px 2px;outline:none;
-  cursor:pointer;transition:border-color .2s;
-  border-radius:0;
-}
+.name-input{background:none;border:none;border-bottom:2px dashed transparent;font-size:13px;font-weight:700;font-family:'Zen Kaku Gothic New',sans-serif;color:var(--green);text-align:center;width:100%;padding:3px 2px;outline:none;cursor:pointer;transition:border-color .2s;border-radius:0}
 .name-input:focus{border-bottom-color:var(--green3)}
 .com-spacer{width:40px;flex-shrink:0}
 
+/* 月カード */
+.month-card{background:#fff;border-radius:var(--r);margin:12px;overflow:hidden;box-shadow:0 2px 16px rgba(26,92,53,.08)}
+
 /* 日付行 */
-.day-row{
-  display:flex;align-items:center;gap:4px;
-  padding:7px 16px;
-  border-bottom:1px solid var(--border);
-  background:#fff;
-  transition:background .12s;
-}
+.day-row{display:flex;align-items:center;gap:4px;padding:7px 16px;border-bottom:1px solid var(--border);background:#fff;transition:background .12s}
 .day-row:last-child{border-bottom:none}
 .day-row.today{background:#f0fdf4}
-.day-row:active{background:var(--green-light)}
-
-.day-info{
-  width:54px;flex-shrink:0;
-  display:flex;align-items:center;gap:6px;
-}
-.day-num{
-  font-family:'Zen Kaku Gothic New',sans-serif;
-  font-size:20px;font-weight:700;
-  color:var(--text);line-height:1;width:28px;text-align:center;
-}
+.day-info{width:54px;flex-shrink:0;display:flex;align-items:center;gap:6px}
+.day-num{font-family:'Zen Kaku Gothic New',sans-serif;font-size:20px;font-weight:700;color:var(--text);line-height:1;width:28px;text-align:center}
 .day-wday{font-size:11px;color:var(--text3);margin-top:2px}
 .is-sat .day-num,.is-sat .day-wday{color:#2563eb}
 .is-sun .day-num,.is-sun .day-wday{color:var(--red)}
-.today .day-num{
-  background:var(--green);color:#fff;
-  border-radius:50%;width:32px;height:32px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;margin-left:-2px;
-}
-
+.today .day-num{background:var(--green);color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-left:-2px}
 .att-cells{display:flex;flex:1;gap:5px}
-.att-btn{
-  flex:1;height:40px;
-  border-radius:var(--r2);
-  border:1.5px solid var(--border);
-  background:#fafafa;
-  font-size:16px;font-weight:700;
-  font-family:'Zen Kaku Gothic New',sans-serif;
-  cursor:pointer;color:var(--text3);
-  transition:all .18s cubic-bezier(.34,1.56,.64,1);
-  -webkit-user-select:none;user-select:none;
-}
-.att-btn:active{transform:scale(0.91)}
-.att-maru{
-  background:var(--green-light);
-  border-color:var(--green2);
-  color:var(--green);
-}
-.att-batu{
-  background:var(--red-light);
-  border-color:var(--red);
-  color:var(--red);
-}
-
+.att-btn{flex:1;height:40px;border-radius:var(--r2);border:1.5px solid var(--border);background:#fafafa;font-size:16px;font-weight:700;font-family:'Zen Kaku Gothic New',sans-serif;cursor:pointer;color:var(--text3);transition:all .18s cubic-bezier(.34,1.56,.64,1);-webkit-user-select:none;user-select:none}
+.att-btn:active{transform:scale(.91)}
+.att-maru{background:var(--green-light);border-color:var(--green2);color:var(--green)}
+.att-batu{background:var(--red-light);border-color:var(--red);color:var(--red)}
 .com-cell{width:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.com-btn{
-  width:34px;height:34px;border-radius:50%;
-  border:1.5px solid var(--border);background:#fafafa;
-  font-size:15px;font-weight:700;cursor:pointer;color:var(--text3);
-  display:flex;align-items:center;justify-content:center;
-  transition:all .2s cubic-bezier(.34,1.56,.64,1);
-  -webkit-user-select:none;user-select:none;
-}
-.com-btn:active{transform:scale(0.86)}
-.com-btn.has{
-  background:var(--amber-light);
-  border-color:var(--amber);
-  color:var(--amber);
-  animation:pulse 2.5s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,0.35)}
-  50%{box-shadow:0 0 0 5px rgba(245,158,11,0)}
-}
-
-/* 月グループ区切り */
-.month-card{
-  background:#fff;
-  border-radius:var(--r);
-  margin:12px;
-  overflow:hidden;
-  box-shadow:0 2px 16px rgba(26,92,53,0.08);
-}
+.com-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:#fafafa;font-size:15px;font-weight:700;cursor:pointer;color:var(--text3);display:flex;align-items:center;justify-content:center;transition:all .2s cubic-bezier(.34,1.56,.64,1);-webkit-user-select:none;user-select:none}
+.com-btn:active{transform:scale(.86)}
+.com-btn.has{background:var(--amber-light);border-color:var(--amber);color:var(--amber);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.35)}50%{box-shadow:0 0 0 5px rgba(245,158,11,0)}}
 
 /* 凡例 */
-.legend{
-  display:flex;align-items:center;justify-content:center;gap:16px;
-  padding:12px 16px;
-  font-size:11px;color:var(--text3);
-  border-top:1px solid var(--border);
-  background:#fff;
-}
+.legend{display:flex;align-items:center;justify-content:center;gap:16px;padding:12px 16px;font-size:11px;color:var(--text3);border-top:1px solid var(--border)}
 .leg-item{display:flex;align-items:center;gap:5px}
 .leg-dot{width:16px;height:16px;border-radius:5px;border:1.5px solid}
 .dot-maru{background:var(--green-light);border-color:var(--green2)}
 .dot-batu{background:var(--red-light);border-color:var(--red)}
 
-/* ── ローディング ── */
-.loading{
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  height:200px;gap:14px;
-}
-.spinner{
-  width:36px;height:36px;border-radius:50%;
-  border:3px solid var(--green-mid);
-  border-top-color:var(--green);
-  animation:spin .8s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading p{font-size:13px;color:var(--text3)}
-
-/* ── コメントモーダル（下シート） ── */
-.sheet-overlay{
-  display:none;
-  position:fixed;inset:0;z-index:300;
-  background:rgba(0,0,0,0);
-  transition:background .3s;
-  align-items:flex-end;
-}
-.sheet-overlay.open{
-  display:flex;
-  background:rgba(0,0,0,0.48);
-}
-.sheet{
-  background:#fff;
-  border-radius:var(--r3) var(--r3) 0 0;
-  padding:12px 16px calc(env(safe-area-inset-bottom) + 20px);
-  width:100%;max-width:480px;margin:0 auto;
-  transform:translateY(100%);
-  transition:transform .35s cubic-bezier(.32,0,.15,1);
-  box-shadow:0 -4px 40px rgba(0,0,0,0.18);
-}
+/* コメントシート */
+.sheet-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0);transition:background .3s;align-items:flex-end}
+.sheet-overlay.open{display:flex;background:rgba(0,0,0,.48)}
+.sheet{background:#fff;border-radius:var(--r3) var(--r3) 0 0;padding:12px 16px calc(env(safe-area-inset-bottom) + 20px);width:100%;max-width:480px;margin:0 auto;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,0,.15,1);box-shadow:0 -4px 40px rgba(0,0,0,.18)}
 .sheet-overlay.open .sheet{transform:translateY(0)}
-.sheet-handle{
-  width:44px;height:5px;border-radius:5px;
-  background:var(--border);margin:0 auto 18px;
-}
-.sheet-title{
-  font-family:'Zen Kaku Gothic New',sans-serif;
-  font-size:16px;font-weight:700;color:var(--green);
-  text-align:center;margin-bottom:14px;
-}
-.sheet-textarea{
-  width:100%;border:1.5px solid var(--border);
-  border-radius:var(--r2);
-  padding:14px;font-size:15px;
-  font-family:'M PLUS 1p',sans-serif;
-  color:var(--text);background:#fff;
-  resize:none;min-height:120px;
-  outline:none;line-height:1.7;
-  transition:border-color .2s;
-}
+.sheet-handle{width:44px;height:5px;border-radius:5px;background:var(--border);margin:0 auto 18px}
+.sheet-title{font-family:'Zen Kaku Gothic New',sans-serif;font-size:16px;font-weight:700;color:var(--green);text-align:center;margin-bottom:14px}
+.sheet-textarea{width:100%;border:1.5px solid var(--border);border-radius:var(--r2);padding:14px;font-size:15px;font-family:'M PLUS 1p',sans-serif;color:var(--text);background:#fff;resize:none;min-height:120px;outline:none;line-height:1.7;transition:border-color .2s}
 .sheet-textarea:focus{border-color:var(--green3)}
 .sheet-btns{display:flex;gap:10px;margin-top:12px}
-.sheet-btn{
-  flex:1;padding:14px;border-radius:var(--r2);
-  font-family:'M PLUS 1p',sans-serif;
-  font-size:15px;font-weight:500;
-  cursor:pointer;border:1.5px solid var(--border);
-  transition:all .15s;
-  -webkit-user-select:none;user-select:none;
-}
-.sheet-btn:active{transform:scale(0.97)}
-.btn-save{
-  background:var(--green);color:#fff;
-  border-color:var(--green);
-}
+.sheet-btn{flex:1;padding:14px;border-radius:var(--r2);font-family:'M PLUS 1p',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);transition:all .15s}
+.sheet-btn:active{transform:scale(.97)}
+.btn-save{background:var(--green);color:#fff;border-color:var(--green)}
 .btn-cancel{background:#fff;color:var(--text2)}
 </style>
 </head>
 <body>
 
-<!-- ヘッダー -->
 <div class="header">
-  <div class="header-inner">
+  <div class="header-top">
     <div class="logo">🌿</div>
     <div class="header-text">
       <h1>真心農園</h1>
@@ -316,17 +165,31 @@ body{
       <span class="sync-txt" id="syncTxt">接続中...</span>
     </div>
   </div>
+
+  <!-- タスク -->
+  <div class="task-area">
+    <div class="task-head">
+      <span class="task-head-lbl">やるべきこと</span>
+      <span class="task-count-badge" id="taskCount">0</span>
+    </div>
+    <div class="task-add-row">
+      <input class="task-inp" id="taskInput" placeholder="タスクを追加して Enter..." maxlength="40">
+      <button class="task-add-btn" id="taskAddBtn">＋</button>
+    </div>
+    <div class="task-scroll" id="taskScroll"></div>
+  </div>
+
+  <!-- 月ナビ -->
   <div class="month-nav">
     <button class="nav-btn" id="prevBtn">&#8249;</button>
     <div>
-      <div class="month-label" id="monthLabel">----年--月</div>
+      <div class="month-label" id="monthLabel"></div>
       <div class="month-sub" id="monthSub"></div>
     </div>
     <button class="nav-btn" id="nextBtn">&#8250;</button>
   </div>
 </div>
 
-<!-- スクロールエリア -->
 <div class="scroll-body" id="scrollBody">
   <div class="loading" id="loadingEl">
     <div class="spinner"></div>
@@ -336,9 +199,9 @@ body{
     <div class="month-card">
       <div class="names-bar">
         <div class="name-spacer"></div>
-        <div class="name-col"><input class="name-input" id="n0" value="メンバー1" maxlength="6"></div>
-        <div class="name-col"><input class="name-input" id="n1" value="メンバー2" maxlength="6"></div>
-        <div class="name-col"><input class="name-input" id="n2" value="メンバー3" maxlength="6"></div>
+        <div class="name-col"><input class="name-input" id="n0" maxlength="6"></div>
+        <div class="name-col"><input class="name-input" id="n1" maxlength="6"></div>
+        <div class="name-col"><input class="name-input" id="n2" maxlength="6"></div>
         <div class="com-spacer"></div>
       </div>
       <div id="dayRows"></div>
@@ -351,7 +214,6 @@ body{
   </div>
 </div>
 
-<!-- コメントシート -->
 <div class="sheet-overlay" id="sheetOverlay">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -364,10 +226,9 @@ body{
   </div>
 </div>
 
-<!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBwyzUWmSrCfTEBEUHdY1phxPjK5A-JOXo",
@@ -381,203 +242,213 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const dbRef = ref(db, 'kinntai');
 
 const DAYS = ['日','月','火','水','木','金','土'];
 const MONTHS_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
 
 let year = new Date().getFullYear();
 let month = new Date().getMonth();
 const today = new Date();
-let dbData = { names: ['メンバー1','メンバー2','メンバー3'], attendance: {}, comments: {} };
+let dbData = { names:['メンバー1','メンバー2','メンバー3'], attendance:{}, comments:{}, tasks:[] };
 let modalDay = null;
 let saveTimer = null;
-let unsubscribe = null;
 
-// ── 同期状態表示 ──
-function setSyncDot(state) {
+// 同期ドット
+function setSyncDot(s) {
   const dot = document.getElementById('syncDot');
   const txt = document.getElementById('syncTxt');
-  if (state === 'ok') { dot.className = 'sync-dot sync-ok'; txt.textContent = 'ライブ同期中'; }
-  else if (state === 'saving') { dot.className = 'sync-dot sync-ing'; txt.textContent = '保存中...'; }
-  else if (state === 'err') { dot.className = 'sync-dot sync-err'; txt.textContent = '接続エラー'; }
-  else { dot.className = 'sync-dot'; txt.textContent = '接続中...'; }
+  const map = { ok:['sync-dot sync-ok','ライブ同期中'], saving:['sync-dot sync-ing','保存中...'], err:['sync-dot sync-err','接続エラー'] };
+  const [cls, label] = map[s] || ['sync-dot','接続中...'];
+  dot.className = cls; txt.textContent = label;
 }
 
-// ── Firebaseリアルタイム監視 ──
-function startListening() {
-  const dbRef = ref(db, 'kinntai');
-  unsubscribe = onValue(dbRef, (snapshot) => {
-    const data = snapshot.val();
-    if (data) {
-      dbData = Object.assign({ names: ['メンバー1','メンバー2','メンバー3'], attendance: {}, comments: {} }, data);
-      syncNameInputs();
-      renderCalendar();
-    }
-    document.getElementById('loadingEl').style.display = 'none';
-    document.getElementById('calWrap').style.display = 'block';
-    setSyncDot('ok');
-  }, (error) => {
-    setSyncDot('err');
-  });
-}
+// Firebase監視（リアルタイム）
+onValue(dbRef, (snap) => {
+  const data = snap.val();
+  if (data) dbData = Object.assign({ names:['メンバー1','メンバー2','メンバー3'], attendance:{}, comments:{}, tasks:[] }, data);
+  if (!Array.isArray(dbData.tasks)) dbData.tasks = [];
+  cleanTasks();
+  syncNameInputs();
+  renderCalendar();
+  renderTasks();
+  document.getElementById('loadingEl').style.display = 'none';
+  document.getElementById('calWrap').style.display = 'block';
+  setSyncDot('ok');
+}, () => setSyncDot('err'));
 
-// ── 保存（デバウンス） ──
+// 保存（デバウンス600ms）
 function saveData() {
   setSyncDot('saving');
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(async () => {
-    try {
-      await set(ref(db, 'kinntai'), dbData);
-      setSyncDot('ok');
-    } catch (e) {
-      setSyncDot('err');
-    }
+    try { await set(dbRef, dbData); setSyncDot('ok'); }
+    catch { setSyncDot('err'); }
   }, 600);
 }
 
-// ── 出勤データ操作 ──
-function attKey(d) { return `${year}_${String(month+1).padStart(2,'0')}_${String(d).padStart(2,'0')}`; }
-function getAtt(d, i) { return (dbData.attendance?.[attKey(d)] || {})[i] || ''; }
+// 完了から3日後に自動削除
+function cleanTasks() {
+  const now = Date.now();
+  const before = dbData.tasks.length;
+  dbData.tasks = dbData.tasks.filter(t => !t.done || (now - (t.doneAt || 0)) < THREE_DAYS);
+  if (dbData.tasks.length !== before) saveData();
+}
+
+// タスク描画
+function renderTasks() {
+  const scroll = document.getElementById('taskScroll');
+  const pending = dbData.tasks.filter(t => !t.done).length;
+  document.getElementById('taskCount').textContent = pending;
+  scroll.innerHTML = '';
+
+  const sorted = [...dbData.tasks].sort((a, b) => (a.done ? 1 : 0) - (b.done ? 1 : 0));
+  sorted.forEach(t => {
+    const idx = dbData.tasks.findIndex(x => x.id === t.id);
+    const div = document.createElement('div');
+    div.className = 'task-item' + (t.done ? ' done' : '');
+
+    const name = document.createElement('span');
+    name.className = 'task-name';
+    name.textContent = t.text;
+
+    const expire = document.createElement('span');
+    expire.className = 'task-expire';
+    if (t.done && t.doneAt) {
+      const remain = Math.ceil((THREE_DAYS - (Date.now() - t.doneAt)) / 86400000);
+      expire.textContent = remain > 0 ? `${remain}日後削除` : '間もなく削除';
+    }
+
+    const completeBtn = document.createElement('button');
+    completeBtn.className = 'complete-btn';
+    completeBtn.textContent = t.done ? '完了済' : '完了';
+    completeBtn.addEventListener('click', () => {
+      dbData.tasks[idx].done = !dbData.tasks[idx].done;
+      dbData.tasks[idx].doneAt = dbData.tasks[idx].done ? Date.now() : null;
+      saveData();
+    });
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'task-del';
+    delBtn.textContent = '×';
+    delBtn.addEventListener('click', () => { dbData.tasks.splice(idx, 1); saveData(); });
+
+    div.appendChild(name);
+    div.appendChild(expire);
+    div.appendChild(completeBtn);
+    div.appendChild(delBtn);
+    scroll.appendChild(div);
+  });
+}
+
+// タスク追加
+function addTask() {
+  const inp = document.getElementById('taskInput');
+  const text = inp.value.trim();
+  if (!text) return;
+  dbData.tasks.unshift({ id: Date.now(), text, done: false, doneAt: null, createdAt: Date.now() });
+  inp.value = '';
+  saveData();
+}
+document.getElementById('taskAddBtn').addEventListener('click', addTask);
+document.getElementById('taskInput').addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+
+// 出勤データ
+function ak(d) { return `${year}_${String(month+1).padStart(2,'0')}_${String(d).padStart(2,'0')}`; }
+function getAtt(d, i) { return (dbData.attendance?.[ak(d)] || {})[i] || ''; }
 function setAtt(d, i, v) {
   if (!dbData.attendance) dbData.attendance = {};
-  if (!dbData.attendance[attKey(d)]) dbData.attendance[attKey(d)] = {};
-  dbData.attendance[attKey(d)][i] = v;
-  saveData();
+  if (!dbData.attendance[ak(d)]) dbData.attendance[ak(d)] = {};
+  dbData.attendance[ak(d)][i] = v; saveData();
 }
-function getCom(d) { return dbData.comments?.[attKey(d)] || ''; }
-function setCom(d, v) {
-  if (!dbData.comments) dbData.comments = {};
-  dbData.comments[attKey(d)] = v;
-  saveData();
-}
+function getCom(d) { return dbData.comments?.[ak(d)] || ''; }
+function setCom(d, v) { if (!dbData.comments) dbData.comments = {}; dbData.comments[ak(d)] = v; saveData(); }
 function cycle(c) { return c === '' ? '○' : c === '○' ? '×' : ''; }
 
-// ── カレンダー描画 ──
+// カレンダー描画
 function renderCalendar() {
-  const label = `${year}年${month + 1}月`;
-  document.getElementById('monthLabel').textContent = label;
+  document.getElementById('monthLabel').textContent = `${year}年${month+1}月`;
   document.getElementById('monthSub').textContent = `${MONTHS_EN[month]} ${year}`;
-
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const days = new Date(year, month+1, 0).getDate();
   const container = document.getElementById('dayRows');
   container.innerHTML = '';
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    const date = new Date(year, month, d);
-    const dow = date.getDay();
-    const isToday = date.toDateString() === today.toDateString();
-
+  for (let d = 1; d <= days; d++) {
+    const dow = new Date(year, month, d).getDay();
+    const isToday = new Date(year, month, d).toDateString() === today.toDateString();
     const row = document.createElement('div');
-    let rowClass = 'day-row';
-    if (dow === 0) rowClass += ' is-sun';
-    if (dow === 6) rowClass += ' is-sat';
-    if (isToday) rowClass += ' today';
-    row.className = rowClass;
+    row.className = 'day-row' + (dow===0?' is-sun':dow===6?' is-sat':'') + (isToday?' today':'');
 
-    // 日付
     const info = document.createElement('div');
     info.className = 'day-info';
-    const numEl = document.createElement('div');
-    numEl.className = 'day-num';
-    numEl.textContent = d;
-    const wdayEl = document.createElement('div');
-    wdayEl.className = 'day-wday';
-    wdayEl.textContent = DAYS[dow];
-    info.appendChild(numEl);
-    info.appendChild(wdayEl);
+    const numEl = document.createElement('div'); numEl.className = 'day-num'; numEl.textContent = d;
+    const wdayEl = document.createElement('div'); wdayEl.className = 'day-wday'; wdayEl.textContent = DAYS[dow];
+    info.appendChild(numEl); info.appendChild(wdayEl);
 
-    // 出勤ボタン
     const cells = document.createElement('div');
     cells.className = 'att-cells';
     for (let i = 0; i < 3; i++) {
       const v = getAtt(d, i);
       const btn = document.createElement('button');
-      btn.className = 'att-btn' + (v === '○' ? ' att-maru' : v === '×' ? ' att-batu' : '');
-      btn.textContent = v || '－';
-      btn.dataset.d = d;
-      btn.dataset.i = i;
-      btn.addEventListener('click', function () {
+      btn.className = 'att-btn' + (v==='○'?' att-maru':v==='×'?' att-batu':'');
+      btn.textContent = v || '－'; btn.dataset.d = d; btn.dataset.i = i;
+      btn.addEventListener('click', function() {
         const nv = cycle(getAtt(+this.dataset.d, +this.dataset.i));
         setAtt(+this.dataset.d, +this.dataset.i, nv);
-        this.className = 'att-btn' + (nv === '○' ? ' att-maru' : nv === '×' ? ' att-batu' : '');
+        this.className = 'att-btn' + (nv==='○'?' att-maru':nv==='×'?' att-batu':'');
         this.textContent = nv || '－';
       });
       cells.appendChild(btn);
     }
 
-    // コメントボタン
-    const comCell = document.createElement('div');
-    comCell.className = 'com-cell';
+    const comCell = document.createElement('div'); comCell.className = 'com-cell';
     const hasCom = getCom(d).trim() !== '';
     const cb = document.createElement('button');
-    cb.className = 'com-btn' + (hasCom ? ' has' : '');
-    cb.textContent = '!';
-    cb.dataset.d = d;
-    cb.addEventListener('click', function () { openSheet(+this.dataset.d); });
+    cb.className = 'com-btn' + (hasCom?' has':''); cb.textContent = '!'; cb.dataset.d = d;
+    cb.addEventListener('click', function() { openSheet(+this.dataset.d); });
     comCell.appendChild(cb);
 
-    row.appendChild(info);
-    row.appendChild(cells);
-    row.appendChild(comCell);
+    row.appendChild(info); row.appendChild(cells); row.appendChild(comCell);
     container.appendChild(row);
   }
 }
 
-// ── コメントシート ──
+// コメントシート
 function openSheet(d) {
   modalDay = d;
   const dow = new Date(year, month, d).getDay();
-  document.getElementById('sheetTitle').textContent = `${month + 1}月${d}日（${DAYS[dow]}）のメモ`;
+  document.getElementById('sheetTitle').textContent = `${month+1}月${d}日（${DAYS[dow]}）のメモ`;
   document.getElementById('sheetTxt').value = getCom(d);
   document.getElementById('sheetOverlay').className = 'sheet-overlay open';
   setTimeout(() => document.getElementById('sheetTxt').focus(), 360);
 }
-function closeSheet() {
-  document.getElementById('sheetOverlay').className = 'sheet-overlay';
-  modalDay = null;
-}
+function closeSheet() { document.getElementById('sheetOverlay').className = 'sheet-overlay'; modalDay = null; }
 document.getElementById('sheetSave').addEventListener('click', () => {
   if (modalDay === null) return;
   setCom(modalDay, document.getElementById('sheetTxt').value);
-  closeSheet();
+  closeSheet(); renderCalendar();
 });
 document.getElementById('sheetCancel').addEventListener('click', closeSheet);
-document.getElementById('sheetOverlay').addEventListener('click', (e) => {
-  if (e.target === document.getElementById('sheetOverlay')) closeSheet();
-});
+document.getElementById('sheetOverlay').addEventListener('click', e => { if (e.target === document.getElementById('sheetOverlay')) closeSheet(); });
 
-// ── 月ナビ ──
-document.getElementById('prevBtn').addEventListener('click', () => {
-  month--; if (month < 0) { month = 11; year--; }
-  renderCalendar();
-  document.getElementById('scrollBody').scrollTo(0, 0);
-});
-document.getElementById('nextBtn').addEventListener('click', () => {
-  month++; if (month > 11) { month = 0; year++; }
-  renderCalendar();
-  document.getElementById('scrollBody').scrollTo(0, 0);
-});
+// 月ナビ
+document.getElementById('prevBtn').addEventListener('click', () => { month--; if(month<0){month=11;year--;} renderCalendar(); document.getElementById('scrollBody').scrollTo(0,0); });
+document.getElementById('nextBtn').addEventListener('click', () => { month++; if(month>11){month=0;year++;} renderCalendar(); document.getElementById('scrollBody').scrollTo(0,0); });
 
-// ── 名前 ──
+// 名前
 function syncNameInputs() {
   for (let i = 0; i < 3; i++) {
-    const el = document.getElementById('n' + i);
-    if (document.activeElement !== el) {
-      el.value = dbData.names?.[i] || 'メンバー' + (i + 1);
-    }
+    const el = document.getElementById('n'+i);
+    if (document.activeElement !== el) el.value = dbData.names?.[i] || 'メンバー'+(i+1);
   }
 }
 for (let i = 0; i < 3; i++) {
-  document.getElementById('n' + i).addEventListener('input', function () {
+  document.getElementById('n'+i).addEventListener('input', function() {
     if (!dbData.names) dbData.names = [];
-    dbData.names[+this.id.replace('n', '')] = this.value;
+    dbData.names[+this.id.replace('n','')] = this.value;
     saveData();
   });
 }
-
-// ── スタート ──
-setSyncDot('connecting');
-startListening();
 </script>
 </body>
 </html>
