@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="真心農園">
+<meta name="theme-color" content="#1a5c35">
+<title>真心農園 勤怠表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --green:#1a5c35;
+  --green2:#2d8a55;
+  --green3:#3da668;
+  --green-light:#e8f5ee;
+  --green-mid:#b7dfc7;
+  --amber:#f59e0b;
+  --amber-light:#fef3c7;
+  --red:#e53e3e;
+  --red-light:#fff0f0;
+  --bg:#f2f7f4;
+  --surface:#ffffff;
+  --text:#0f2d1a;
+  --text2:#3d6b50;
+  --text3:#7aaa8a;
+  --border:#dceee3;
+  --r:18px;--r2:12px;--r3:28px;
+}
+html,body{
+  height:100%;
+  font-family:'M PLUS 1p',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overscroll-behavior:none;
+}
+body{
+  display:flex;flex-direction:column;
+  max-width:480px;margin:0 auto;
+  min-height:100dvh;
+  position:relative;
+}
+
+/* ── ヘッダー ── */
+.header{
+  background:var(--green);
+  padding:env(safe-area-inset-top) 0 0;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 20px rgba(0,0,0,0.2);
+}
+.header-inner{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 16px 12px;
+}
+.logo{
+  width:38px;height:38px;border-radius:12px;
+  background:rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+}
+.header-text{flex:1}
+.header-text h1{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:18px;font-weight:700;color:#fff;letter-spacing:0.03em;
+}
+.header-text p{font-size:11px;color:rgba(255,255,255,0.55);margin-top:2px}
+.sync-area{display:flex;align-items:center;gap:6px}
+.sync-dot{
+  width:9px;height:9px;border-radius:50%;
+  background:rgba(255,255,255,0.25);
+  transition:background .5s;flex-shrink:0;
+}
+.sync-ok{background:#4ade80}
+.sync-err{background:#f87171}
+.sync-ing{background:#fbbf24;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.sync-txt{font-size:10px;color:rgba(255,255,255,0.5)}
+
+/* 月ナビ */
+.month-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px 14px;
+}
+.month-label{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:20px;font-weight:700;color:#fff;
+}
+.month-sub{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px}
+.nav-btn{
+  width:40px;height:40px;border-radius:50%;border:none;
+  background:rgba(255,255,255,0.15);
+  color:#fff;font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s cubic-bezier(.34,1.56,.64,1);
+}
+.nav-btn:active{transform:scale(0.88);background:rgba(255,255,255,0.25)}
+
+/* ── スクロールコンテンツ ── */
+.scroll-body{
+  flex:1;overflow-y:auto;
+  padding:0 0 32px;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* 名前ヘッダー */
+.names-bar{
+  display:flex;align-items:center;
+  background:#fff;
+  border-bottom:1.5px solid var(--border);
+  padding:10px 16px;gap:4px;
+  position:sticky;top:0;z-index:50;
+  box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+.name-spacer{width:54px;flex-shrink:0}
+.name-col{flex:1;text-align:center}
+.name-input{
+  background:none;border:none;
+  border-bottom:2px dashed transparent;
+  font-size:13px;font-weight:700;
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  color:var(--green);text-align:center;
+  width:100%;padding:3px 2px;outline:none;
+  cursor:pointer;transition:border-color .2s;
+  border-radius:0;
+}
+.name-input:focus{border-bottom-color:var(--green3)}
+.com-spacer{width:40px;flex-shrink:0}
+
+/* 日付行 */
+.day-row{
+  display:flex;align-items:center;gap:4px;
+  padding:7px 16px;
+  border-bottom:1px solid var(--border);
+  background:#fff;
+  transition:background .12s;
+}
+.day-row:last-child{border-bottom:none}
+.day-row.today{background:#f0fdf4}
+.day-row:active{background:var(--green-light)}
+
+.day-info{
+  width:54px;flex-shrink:0;
+  display:flex;align-items:center;gap:6px;
+}
+.day-num{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:20px;font-weight:700;
+  color:var(--text);line-height:1;width:28px;text-align:center;
+}
+.day-wday{font-size:11px;color:var(--text3);margin-top:2px}
+.is-sat .day-num,.is-sat .day-wday{color:#2563eb}
+.is-sun .day-num,.is-sun .day-wday{color:var(--red)}
+.today .day-num{
+  background:var(--green);color:#fff;
+  border-radius:50%;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;margin-left:-2px;
+}
+
+.att-cells{display:flex;flex:1;gap:5px}
+.att-btn{
+  flex:1;height:40px;
+  border-radius:var(--r2);
+  border:1.5px solid var(--border);
+  background:#fafafa;
+  font-size:16px;font-weight:700;
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  cursor:pointer;color:var(--text3);
+  transition:all .18s cubic-bezier(.34,1.56,.64,1);
+  -webkit-user-select:none;user-select:none;
+}
+.att-btn:active{transform:scale(0.91)}
+.att-maru{
+  background:var(--green-light);
+  border-color:var(--green2);
+  color:var(--green);
+}
+.att-batu{
+  background:var(--red-light);
+  border-color:var(--red);
+  color:var(--red);
+}
+
+.com-cell{width:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.com-btn{
+  width:34px;height:34px;border-radius:50%;
+  border:1.5px solid var(--border);background:#fafafa;
+  font-size:15px;font-weight:700;cursor:pointer;color:var(--text3);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s cubic-bezier(.34,1.56,.64,1);
+  -webkit-user-select:none;user-select:none;
+}
+.com-btn:active{transform:scale(0.86)}
+.com-btn.has{
+  background:var(--amber-light);
+  border-color:var(--amber);
+  color:var(--amber);
+  animation:pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,0.35)}
+  50%{box-shadow:0 0 0 5px rgba(245,158,11,0)}
+}
+
+/* 月グループ区切り */
+.month-card{
+  background:#fff;
+  border-radius:var(--r);
+  margin:12px;
+  overflow:hidden;
+  box-shadow:0 2px 16px rgba(26,92,53,0.08);
+}
+
+/* 凡例 */
+.legend{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  padding:12px 16px;
+  font-size:11px;color:var(--text3);
+  border-top:1px solid var(--border);
+  background:#fff;
+}
+.leg-item{display:flex;align-items:center;gap:5px}
+.leg-dot{width:16px;height:16px;border-radius:5px;border:1.5px solid}
+.dot-maru{background:var(--green-light);border-color:var(--green2)}
+.dot-batu{background:var(--red-light);border-color:var(--red)}
+
+/* ── ローディング ── */
+.loading{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  height:200px;gap:14px;
+}
+.spinner{
+  width:36px;height:36px;border-radius:50%;
+  border:3px solid var(--green-mid);
+  border-top-color:var(--green);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{font-size:13px;color:var(--text3)}
+
+/* ── コメントモーダル（下シート） ── */
+.sheet-overlay{
+  display:none;
+  position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,0);
+  transition:background .3s;
+  align-items:flex-end;
+}
+.sheet-overlay.open{
+  display:flex;
+  background:rgba(0,0,0,0.48);
+}
+.sheet{
+  background:#fff;
+  border-radius:var(--r3) var(--r3) 0 0;
+  padding:12px 16px calc(env(safe-area-inset-bottom) + 20px);
+  width:100%;max-width:480px;margin:0 auto;
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(.32,0,.15,1);
+  box-shadow:0 -4px 40px rgba(0,0,0,0.18);
+}
+.sheet-overlay.open .sheet{transform:translateY(0)}
+.sheet-handle{
+  width:44px;height:5px;border-radius:5px;
+  background:var(--border);margin:0 auto 18px;
+}
+.sheet-title{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:16px;font-weight:700;color:var(--green);
+  text-align:center;margin-bottom:14px;
+}
+.sheet-textarea{
+  width:100%;border:1.5px solid var(--border);
+  border-radius:var(--r2);
+  padding:14px;font-size:15px;
+  font-family:'M PLUS 1p',sans-serif;
+  color:var(--text);background:#fff;
+  resize:none;min-height:120px;
+  outline:none;line-height:1.7;
+  transition:border-color .2s;
+}
+.sheet-textarea:focus{border-color:var(--green3)}
+.sheet-btns{display:flex;gap:10px;margin-top:12px}
+.sheet-btn{
+  flex:1;padding:14px;border-radius:var(--r2);
+  font-family:'M PLUS 1p',sans-serif;
+  font-size:15px;font-weight:500;
+  cursor:pointer;border:1.5px solid var(--border);
+  transition:all .15s;
+  -webkit-user-select:none;user-select:none;
+}
+.sheet-btn:active{transform:scale(0.97)}
+.btn-save{
+  background:var(--green);color:#fff;
+  border-color:var(--green);
+}
+.btn-cancel{background:#fff;color:var(--text2)}
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">🌿</div>
+    <div class="header-text">
+      <h1>真心農園</h1>
+      <p>勤怠確認表</p>
+    </div>
+    <div class="sync-area">
+      <div class="sync-dot" id="syncDot"></div>
+      <span class="sync-txt" id="syncTxt">接続中...</span>
+    </div>
+  </div>
+  <div class="month-nav">
+    <button class="nav-btn" id="prevBtn">&#8249;</button>
+    <div>
+      <div class="month-label" id="monthLabel">----年--月</div>
+      <div class="month-sub" id="monthSub"></div>
+    </div>
+    <button class="nav-btn" id="nextBtn">&#8250;</button>
+  </div>
+</div>
+
+<!-- スクロールエリア -->
+<div class="scroll-body" id="scrollBody">
+  <div class="loading" id="loadingEl">
+    <div class="spinner"></div>
+    <p>データを読み込み中...</p>
+  </div>
+  <div id="calWrap" style="display:none">
+    <div class="month-card">
+      <div class="names-bar">
+        <div class="name-spacer"></div>
+        <div class="name-col"><input class="name-input" id="n0" value="メンバー1" maxlength="6"></div>
+        <div class="name-col"><input class="name-input" id="n1" value="メンバー2" maxlength="6"></div>
+        <div class="name-col"><input class="name-input" id="n2" value="メンバー3" maxlength="6"></div>
+        <div class="com-spacer"></div>
+      </div>
+      <div id="dayRows"></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot dot-maru"></div>出勤</div>
+        <div class="leg-item"><div class="leg-dot dot-batu"></div>欠勤</div>
+        <div class="leg-item" style="color:var(--amber)">！ コメント</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- コメントシート -->
+<div class="sheet-overlay" id="sheetOverlay">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="sheetTitle">コメント</div>
+    <textarea class="sheet-textarea" id="sheetTxt" placeholder="この日のメモや連絡事項..."></textarea>
+    <div class="sheet-btns">
+      <button class="sheet-btn btn-cancel" id="sheetCancel">キャンセル</button>
+      <button class="sheet-btn btn-save" id="sheetSave">保存する</button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBwyzUWmSrCfTEBEUHdY1phxPjK5A-JOXo",
+  authDomain: "magokorokinntai.firebaseapp.com",
+  databaseURL: "https://magokorokinntai-default-rtdb.firebaseio.com",
+  projectId: "magokorokinntai",
+  storageBucket: "magokorokinntai.firebasestorage.app",
+  messagingSenderId: "262026754561",
+  appId: "1:262026754561:web:49229fb5676b2bd2665e00"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const DAYS = ['日','月','火','水','木','金','土'];
+const MONTHS_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+let year = new Date().getFullYear();
+let month = new Date().getMonth();
+const today = new Date();
+let dbData = { names: ['メンバー1','メンバー2','メンバー3'], attendance: {}, comments: {} };
+let modalDay = null;
+let saveTimer = null;
+let unsubscribe = null;
+
+// ── 同期状態表示 ──
+function setSyncDot(state) {
+  const dot = document.getElementById('syncDot');
+  const txt = document.getElementById('syncTxt');
+  if (state === 'ok') { dot.className = 'sync-dot sync-ok'; txt.textContent = 'ライブ同期中'; }
+  else if (state === 'saving') { dot.className = 'sync-dot sync-ing'; txt.textContent = '保存中...'; }
+  else if (state === 'err') { dot.className = 'sync-dot sync-err'; txt.textContent = '接続エラー'; }
+  else { dot.className = 'sync-dot'; txt.textContent = '接続中...'; }
+}
+
+// ── Firebaseリアルタイム監視 ──
+function startListening() {
+  const dbRef = ref(db, 'kinntai');
+  unsubscribe = onValue(dbRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      dbData = Object.assign({ names: ['メンバー1','メンバー2','メンバー3'], attendance: {}, comments: {} }, data);
+      syncNameInputs();
+      renderCalendar();
+    }
+    document.getElementById('loadingEl').style.display = 'none';
+    document.getElementById('calWrap').style.display = 'block';
+    setSyncDot('ok');
+  }, (error) => {
+    setSyncDot('err');
+  });
+}
+
+// ── 保存（デバウンス） ──
+function saveData() {
+  setSyncDot('saving');
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try {
+      await set(ref(db, 'kinntai'), dbData);
+      setSyncDot('ok');
+    } catch (e) {
+      setSyncDot('err');
+    }
+  }, 600);
+}
+
+// ── 出勤データ操作 ──
+function attKey(d) { return `${year}_${String(month+1).padStart(2,'0')}_${String(d).padStart(2,'0')}`; }
+function getAtt(d, i) { return (dbData.attendance?.[attKey(d)] || {})[i] || ''; }
+function setAtt(d, i, v) {
+  if (!dbData.attendance) dbData.attendance = {};
+  if (!dbData.attendance[attKey(d)]) dbData.attendance[attKey(d)] = {};
+  dbData.attendance[attKey(d)][i] = v;
+  saveData();
+}
+function getCom(d) { return dbData.comments?.[attKey(d)] || ''; }
+function setCom(d, v) {
+  if (!dbData.comments) dbData.comments = {};
+  dbData.comments[attKey(d)] = v;
+  saveData();
+}
+function cycle(c) { return c === '' ? '○' : c === '○' ? '×' : ''; }
+
+// ── カレンダー描画 ──
+function renderCalendar() {
+  const label = `${year}年${month + 1}月`;
+  document.getElementById('monthLabel').textContent = label;
+  document.getElementById('monthSub').textContent = `${MONTHS_EN[month]} ${year}`;
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const container = document.getElementById('dayRows');
+  container.innerHTML = '';
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(year, month, d);
+    const dow = date.getDay();
+    const isToday = date.toDateString() === today.toDateString();
+
+    const row = document.createElement('div');
+    let rowClass = 'day-row';
+    if (dow === 0) rowClass += ' is-sun';
+    if (dow === 6) rowClass += ' is-sat';
+    if (isToday) rowClass += ' today';
+    row.className = rowClass;
+
+    // 日付
+    const info = document.createElement('div');
+    info.className = 'day-info';
+    const numEl = document.createElement('div');
+    numEl.className = 'day-num';
+    numEl.textContent = d;
+    const wdayEl = document.createElement('div');
+    wdayEl.className = 'day-wday';
+    wdayEl.textContent = DAYS[dow];
+    info.appendChild(numEl);
+    info.appendChild(wdayEl);
+
+    // 出勤ボタン
+    const cells = document.createElement('div');
+    cells.className = 'att-cells';
+    for (let i = 0; i < 3; i++) {
+      const v = getAtt(d, i);
+      const btn = document.createElement('button');
+      btn.className = 'att-btn' + (v === '○' ? ' att-maru' : v === '×' ? ' att-batu' : '');
+      btn.textContent = v || '－';
+      btn.dataset.d = d;
+      btn.dataset.i = i;
+      btn.addEventListener('click', function () {
+        const nv = cycle(getAtt(+this.dataset.d, +this.dataset.i));
+        setAtt(+this.dataset.d, +this.dataset.i, nv);
+        this.className = 'att-btn' + (nv === '○' ? ' att-maru' : nv === '×' ? ' att-batu' : '');
+        this.textContent = nv || '－';
+      });
+      cells.appendChild(btn);
+    }
+
+    // コメントボタン
+    const comCell = document.createElement('div');
+    comCell.className = 'com-cell';
+    const hasCom = getCom(d).trim() !== '';
+    const cb = document.createElement('button');
+    cb.className = 'com-btn' + (hasCom ? ' has' : '');
+    cb.textContent = '!';
+    cb.dataset.d = d;
+    cb.addEventListener('click', function () { openSheet(+this.dataset.d); });
+    comCell.appendChild(cb);
+
+    row.appendChild(info);
+    row.appendChild(cells);
+    row.appendChild(comCell);
+    container.appendChild(row);
+  }
+}
+
+// ── コメントシート ──
+function openSheet(d) {
+  modalDay = d;
+  const dow = new Date(year, month, d).getDay();
+  document.getElementById('sheetTitle').textContent = `${month + 1}月${d}日（${DAYS[dow]}）のメモ`;
+  document.getElementById('sheetTxt').value = getCom(d);
+  document.getElementById('sheetOverlay').className = 'sheet-overlay open';
+  setTimeout(() => document.getElementById('sheetTxt').focus(), 360);
+}
+function closeSheet() {
+  document.getElementById('sheetOverlay').className = 'sheet-overlay';
+  modalDay = null;
+}
+document.getElementById('sheetSave').addEventListener('click', () => {
+  if (modalDay === null) return;
+  setCom(modalDay, document.getElementById('sheetTxt').value);
+  closeSheet();
+});
+document.getElementById('sheetCancel').addEventListener('click', closeSheet);
+document.getElementById('sheetOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('sheetOverlay')) closeSheet();
+});
+
+// ── 月ナビ ──
+document.getElementById('prevBtn').addEventListener('click', () => {
+  month--; if (month < 0) { month = 11; year--; }
+  renderCalendar();
+  document.getElementById('scrollBody').scrollTo(0, 0);
+});
+document.getElementById('nextBtn').addEventListener('click', () => {
+  month++; if (month > 11) { month = 0; year++; }
+  renderCalendar();
+  document.getElementById('scrollBody').scrollTo(0, 0);
+});
+
+// ── 名前 ──
+function syncNameInputs() {
+  for (let i = 0; i < 3; i++) {
+    const el = document.getElementById('n' + i);
+    if (document.activeElement !== el) {
+      el.value = dbData.names?.[i] || 'メンバー' + (i + 1);
+    }
+  }
+}
+for (let i = 0; i < 3; i++) {
+  document.getElementById('n' + i).addEventListener('input', function () {
+    if (!dbData.names) dbData.names = [];
+    dbData.names[+this.id.replace('n', '')] = this.value;
+    saveData();
+  });
+}
+
+// ── スタート ──
+setSyncDot('connecting');
+startListening();
+</script>
+</body>
+</html>
