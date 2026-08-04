@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="真心農園">
+<meta name="apple-mobile-web-app-title" content="心真農園">
 <meta name="theme-color" content="#1a5c35">
-<title>真心農園 勤怠表</title>
+<title>心真農園 勤怠表</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -134,6 +134,57 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;min-height
 .sheet-btn:active{transform:scale(.97)}
 .btn-save{background:var(--green);color:#fff;border-color:var(--green)}
 .btn-cancel{background:#fff;color:var(--text2)}
+
+/* ===== 日報（シート内） ===== */
+.sheet{max-height:88dvh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.rep-sec{margin-bottom:14px}
+.rep-lbl{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;color:var(--text2);margin-bottom:6px}
+.mic-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:#fff;font-size:15px;cursor:pointer;flex-shrink:0;transition:all .2s}
+.mic-btn:active{transform:scale(.88)}
+.mic-btn.rec{background:var(--red-light);border-color:var(--red);animation:blink 1s infinite}
+.rep-inp{width:100%;border:1.5px solid var(--border);border-radius:var(--r2);padding:11px 12px;font-size:15px;font-family:'M PLUS 1p',sans-serif;color:var(--text);background:#fff;outline:none;transition:border-color .2s}
+.rep-inp:focus{border-color:var(--green3)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.chip{flex-shrink:0;height:40px;padding:0 13px;border-radius:var(--r2);border:1.5px solid var(--border);background:#fafafa;font-size:13px;font-family:'M PLUS 1p',sans-serif;color:var(--text2);cursor:pointer;transition:all .18s;white-space:nowrap}
+.chip:active{transform:scale(.93)}
+.chip.on{background:var(--green-light);border-color:var(--green2);color:var(--green);font-weight:700}
+.chip.sm{height:34px;font-size:12px;padding:0 11px}
+.time-disp{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+.time-disp.empty{color:var(--text3);opacity:.5}
+.hours-box{background:var(--green-light);border-radius:var(--r2);padding:10px;text-align:center;margin-top:4px}
+.hours-box b{font-size:22px;color:var(--green)}
+.row-card{background:#f7fbf9;border:1px solid var(--border);border-radius:var(--r2);padding:10px;margin-bottom:8px}
+.row-flex{display:flex;gap:7px;align-items:center;margin-top:7px}
+.row-flex .rep-inp{flex:1}
+.kg-inp{width:74px;text-align:center}
+.del-x{width:34px;height:40px;border:none;background:none;color:var(--text3);font-size:19px;cursor:pointer;flex-shrink:0}
+.add-btn{width:100%;height:42px;border-radius:var(--r2);border:1.5px dashed var(--green-mid);background:#fff;color:var(--green);font-size:13px;font-weight:700;font-family:'M PLUS 1p',sans-serif;cursor:pointer}
+.add-btn:active{transform:scale(.98)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}
+.warn-txt{font-size:11px;color:var(--amber);line-height:1.6;margin-top:6px}
+
+/* ===== 見える化 ===== */
+.stats-btn{border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 10px;font-size:11px;font-weight:700;font-family:'M PLUS 1p',sans-serif;background:none;color:rgba(255,255,255,.8);cursor:pointer;white-space:nowrap}
+.stats-btn:active{transform:scale(.93)}
+.stat-card{background:#fff;border-radius:var(--r);margin:12px;padding:16px;box-shadow:0 2px 16px rgba(26,92,53,.08)}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.stat-box{background:var(--green-light);border-radius:var(--r2);padding:11px;text-align:center}
+.stat-box .v{font-size:19px;font-weight:700;color:var(--green);font-variant-numeric:tabular-nums}
+.stat-box .l{font-size:11px;color:var(--text2);margin-top:2px}
+.stat-h{font-family:'Zen Kaku Gothic New',sans-serif;font-size:14px;font-weight:700;color:var(--green);margin-bottom:10px}
+.bar-row{margin-bottom:9px}
+.bar-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.bar-bg{height:9px;border-radius:9px;background:var(--green-light);overflow:hidden}
+.bar-fill{height:100%;border-radius:9px;background:var(--green2)}
+.bar-fill.amber{background:var(--amber)}
+.chem-row{border-bottom:1px solid var(--border);padding:9px 0;font-size:12px}
+.chem-row:last-child{border-bottom:none}
+.chem-row .d{color:var(--green);font-weight:700;font-variant-numeric:tabular-nums}
+.chem-row .m{color:var(--text3);font-size:11px;margin-top:2px;line-height:1.5}
+.csv-btn{width:100%;height:46px;border-radius:var(--r2);border:none;background:var(--green);color:#fff;font-size:14px;font-weight:700;font-family:'M PLUS 1p',sans-serif;cursor:pointer;margin-top:10px}
+.csv-btn:active{transform:scale(.98)}
+.csv-btn.sub{background:#fff;color:var(--green);border:1.5px solid var(--green-mid)}
+.empty-msg{text-align:center;color:var(--text3);font-size:13px;padding:24px 0}
 </style>
 </head>
 <body>
@@ -142,11 +193,12 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;min-height
   <div class="header-top">
     <div class="logo">🌿</div>
     <div class="header-text">
-      <h1>真心農園</h1>
+      <h1>心真農園</h1>
       <p>勤怠確認表</p>
     </div>
     <div class="header-right">
-      <button class="notif-btn" id="notifBtn">🔔 通知ON</button>
+      <button class="stats-btn" id="statsBtn">📊 記録</button>
+      <button class="notif-btn" id="notifBtn">🔔</button>
       <div class="sync-area">
         <div class="sync-dot" id="syncDot"></div>
         <span class="sync-txt" id="syncTxt">接続中...</span>
@@ -194,20 +246,98 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;min-height
       <div class="legend">
         <div class="leg-item"><div class="leg-dot dot-maru"></div>出勤</div>
         <div class="leg-item"><div class="leg-dot dot-batu"></div>欠勤</div>
-        <div class="leg-item" style="color:var(--amber)">！ コメント</div>
+        <div class="leg-item" style="color:var(--amber)">！ 日報</div>
       </div>
     </div>
   </div>
+
+  <!-- 見える化（記録タブ） -->
+  <div id="statsWrap" style="display:none"></div>
 </div>
 
 <div class="sheet-overlay" id="sheetOverlay">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title" id="sheetTitle">コメント</div>
-    <textarea class="sheet-textarea" id="sheetTxt" placeholder="この日のメモや連絡事項..."></textarea>
+    <div class="sheet-title" id="sheetTitle">日報</div>
+
+    <!-- 労働時間 -->
+    <div class="rep-sec">
+      <div class="rep-lbl"><span>⏱ 労働時間</span></div>
+      <div class="row-flex" style="margin-top:0">
+        <button class="chip" id="repStart" style="flex:1;height:52px">
+          <span style="font-size:10px;color:var(--text3);display:block">開始</span>
+          <span class="time-disp empty" id="repStartV">--:--</span>
+        </button>
+        <span style="color:var(--text3)">〜</span>
+        <button class="chip" id="repEnd" style="flex:1;height:52px">
+          <span style="font-size:10px;color:var(--text3);display:block">終了</span>
+          <span class="time-disp empty" id="repEndV">--:--</span>
+        </button>
+      </div>
+      <div class="chips" style="margin-top:7px" id="repBreak"></div>
+      <div class="hours-box" id="repHours" style="display:none"></div>
+    </div>
+
+    <!-- 圃場 -->
+    <div class="rep-sec">
+      <div class="rep-lbl"><span>📍 圃場</span></div>
+      <div class="chips" id="repField"></div>
+    </div>
+
+    <!-- 作業内容 -->
+    <div class="rep-sec">
+      <div class="rep-lbl">
+        <span>🌱 今日やったこと</span>
+        <button class="mic-btn" data-mic="repWorkFree">🎤</button>
+      </div>
+      <div class="chips" id="repWork"></div>
+      <input class="rep-inp" id="repWorkFree" placeholder="その他（自由に書く／🎤で声入力）" style="margin-top:7px">
+    </div>
+
+    <!-- 収穫 -->
+    <div class="rep-sec">
+      <div class="rep-lbl"><span>🧺 収穫</span></div>
+      <div id="repHarvest"></div>
+      <button class="add-btn" id="addHarvest">＋ 収穫を追加</button>
+    </div>
+
+    <!-- 農薬・肥料 -->
+    <div class="rep-sec">
+      <div class="rep-lbl"><span>🧪 農薬・肥料</span></div>
+      <div id="repChem"></div>
+      <button class="add-btn" id="addChem">＋ 農薬・肥料を追加</button>
+      <div class="warn-txt">⚠️ 農薬の使用記録は農薬取締法で義務づけられています（使用日・場所・作物・農薬名・希釈倍数）。ここに入れておけば「記録」タブからCSVで出せます。</div>
+    </div>
+
+    <!-- メモ -->
+    <div class="rep-sec">
+      <div class="rep-lbl">
+        <span>📝 メモ・連絡</span>
+        <button class="mic-btn" data-mic="sheetTxt">🎤</button>
+      </div>
+      <textarea class="sheet-textarea" id="sheetTxt" placeholder="気づいたこと、連絡事項…（🎤で声入力）" style="min-height:80px"></textarea>
+    </div>
+
     <div class="sheet-btns">
       <button class="sheet-btn btn-cancel" id="sheetCancel">キャンセル</button>
       <button class="sheet-btn btn-save" id="sheetSave">保存する</button>
+    </div>
+  </div>
+</div>
+
+<!-- 時刻えらび -->
+<div class="sheet-overlay" id="timeOverlay" style="z-index:400">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="timeTitle">開始時刻</div>
+    <div class="chips" style="justify-content:center;margin-bottom:10px">
+      <button class="chip sm" id="timeNow">今の時刻</button>
+      <button class="chip sm" id="timeClear">消す</button>
+    </div>
+    <div id="timeHours" style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:9px"></div>
+    <div id="timeMins" style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px"></div>
+    <div class="sheet-btns">
+      <button class="sheet-btn btn-cancel" id="timeCancel">閉じる</button>
     </div>
   </div>
 </div>
@@ -241,7 +371,7 @@ const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
 let year = new Date().getFullYear();
 let month = new Date().getMonth();
 const today = new Date();
-let dbData = { names:['メンバー1','メンバー2','メンバー3'], attendance:{}, comments:{}, tasks:[] };
+let dbData = { names:['メンバー1','メンバー2','メンバー3'], attendance:{}, comments:{}, tasks:[], reports:{} };
 let modalDay = null;
 let saveTimer = null;
 let isFirstLoad = true;
@@ -305,7 +435,8 @@ dbRef.on('value', (snap) => {
   const data = snap.val();
   const prevData = JSON.parse(JSON.stringify(dbData));
 
-  if (data) dbData = Object.assign({ names:['メンバー1','メンバー2','メンバー3'], attendance:{}, comments:{}, tasks:[] }, data);
+  if (data) dbData = Object.assign({ names:['メンバー1','メンバー2','メンバー3'], attendance:{}, comments:{}, tasks:[], reports:{} }, data);
+  if (!dbData.reports) dbData.reports = {};
   if (!Array.isArray(dbData.tasks)) dbData.tasks = [];
 
   // 初回ロード以外で変更を検知して通知
@@ -313,7 +444,7 @@ dbRef.on('value', (snap) => {
     // タスク追加検知
     const prevIds = new Set((prevData.tasks||[]).map(t => t.id));
     const newTasks = dbData.tasks.filter(t => !prevIds.has(t.id));
-    newTasks.forEach(t => notifyLocal('🌿 真心農園 - 新しいタスク', `「${t.text}」が追加されました`));
+    newTasks.forEach(t => notifyLocal('🌿 心真農園 - 新しいタスク', `「${t.text}」が追加されました`));
 
     // 出勤変更検知
     const ak = (d) => `${year}_${String(month+1).padStart(2,'0')}_${String(d).padStart(2,'0')}`;
@@ -325,7 +456,7 @@ dbRef.on('value', (snap) => {
         if (prev !== curr && curr !== '') {
           const name = dbData.names?.[i] || `メンバー${i+1}`;
           const label = curr === '○' ? '出勤' : '欠勤';
-          notifyLocal('🌿 真心農園 - 出勤更新', `${name}さんが${month+1}月${d}日を「${label}」に登録しました`);
+          notifyLocal('🌿 心真農園 - 出勤更新', `${name}さんが${month+1}月${d}日を「${label}」に登録しました`);
         }
       }
     }
@@ -445,7 +576,7 @@ function renderCalendar() {
       cells.appendChild(btn);
     }
     const comCell = document.createElement('div'); comCell.className = 'com-cell';
-    const hasCom = getCom(d).trim() !== '';
+    const hasCom = getCom(d).trim() !== '' || hasReport(d);
     const cb = document.createElement('button');
     cb.className = 'com-btn' + (hasCom?' has':''); cb.textContent = '!'; cb.dataset.d = d;
     cb.addEventListener('click', function() { openSheet(+this.dataset.d); });
@@ -455,20 +586,31 @@ function renderCalendar() {
   }
 }
 
-// ── コメントシート ──
+// ── 日報シート ──
 function openSheet(d) {
   modalDay = d;
   const dow = new Date(year, month, d).getDay();
-  document.getElementById('sheetTitle').textContent = `${month+1}月${d}日（${DAYS[dow]}）のメモ`;
+  document.getElementById('sheetTitle').textContent = `${month+1}月${d}日（${DAYS[dow]}）の日報`;
   document.getElementById('sheetTxt').value = getCom(d);
+  repDraft = getRep(d);
+  renderRepForm();
   document.getElementById('sheetOverlay').className = 'sheet-overlay open';
-  setTimeout(() => document.getElementById('sheetTxt').focus(), 360);
+  document.querySelector('#sheetOverlay .sheet').scrollTop = 0;
 }
-function closeSheet() { document.getElementById('sheetOverlay').className = 'sheet-overlay'; modalDay = null; }
+function closeSheet() {
+  document.getElementById('sheetOverlay').className = 'sheet-overlay';
+  modalDay = null; repDraft = null;
+}
 document.getElementById('sheetSave').addEventListener('click', () => {
   if (modalDay === null) return;
-  setCom(modalDay, document.getElementById('sheetTxt').value);
+  const d = modalDay;
+  // 空の行は保存しない
+  repDraft.harvest = repDraft.harvest.filter(h => h.crop || h.kg);
+  repDraft.chem    = repDraft.chem.filter(c => c.name);
+  setRep(d, repDraft);
+  setCom(d, document.getElementById('sheetTxt').value);
   closeSheet(); renderCalendar();
+  if (statsOpen) renderStats();
 });
 document.getElementById('sheetCancel').addEventListener('click', closeSheet);
 document.getElementById('sheetOverlay').addEventListener('click', e => { if (e.target === document.getElementById('sheetOverlay')) closeSheet(); });
@@ -491,6 +633,432 @@ for (let i = 0; i < 3; i++) {
     saveData();
   });
 }
+// ═══════════════════════════════════════════
+//  日報（作業・収穫・農薬肥料）＋見える化
+// ═══════════════════════════════════════════
+
+// よく使う選択肢。押すだけで入るように
+const FIELDS  = ['反1','反2','反3','反4','ハウス','その他'];
+const WORKS   = ['収穫','播種','育苗','定植','除草','防除','施肥','潅水','誘引・整枝','土づくり','出荷準備','片付け'];
+const CROPS   = ['きゅうり','トマト','ネギ','かぼちゃ','菊芋','オクラ','紫蘇','ルッコラ','パクチー','バターナッツ','スイカ','ほうれん草','リーフレタス','大根','アスパラ'];
+const DESTS   = ['直売','産直','食べチョク','飲食店','加工','自家用'];
+const CHEMS   = ['ダコニール','サンクリスタル','ゼンターリ','エコピタ','アーリーセーフ','カリグリーン'];
+const BREAKS  = [0, 30, 60, 90];
+
+// この日の日報を取り出す（無ければ空）
+function getRep(d) {
+  const r = (dbData.reports || {})[ak(d)] || {};
+  return {
+    start: r.start || '', end: r.end || '', breakMin: r.breakMin || 0,
+    field: r.field || '', work: Array.isArray(r.work) ? r.work : [], workFree: r.workFree || '',
+    harvest: Array.isArray(r.harvest) ? r.harvest : [],
+    chem: Array.isArray(r.chem) ? r.chem : []
+  };
+}
+function setRep(d, r) {
+  if (!dbData.reports) dbData.reports = {};
+  dbData.reports[ak(d)] = r;
+  saveData();
+}
+// 何か1つでも入っていれば「！」ボタンを点ける
+function hasReport(d) {
+  const r = (dbData.reports || {})[ak(d)];
+  if (!r) return false;
+  return !!(r.start || r.end || r.field || (r.work||[]).length ||
+            r.workFree || (r.harvest||[]).length || (r.chem||[]).length);
+}
+
+// 稼働時間（休憩を引く）
+function calcHours(r) {
+  if (!r.start || !r.end) return 0;
+  const [sh, sm] = r.start.split(':').map(Number);
+  const [eh, em] = r.end.split(':').map(Number);
+  const diff = (eh*60 + em) - (sh*60 + sm) - (r.breakMin || 0);
+  return diff > 0 ? Math.round(diff / 60 * 100) / 100 : 0;
+}
+// その日○がついた人数（延べ人時を出すため）
+function countMaru(d) {
+  let n = 0;
+  for (let i = 0; i < 3; i++) if (getAtt(d, i) === '○') n++;
+  return n;
+}
+
+// 編集中の日報。保存を押すまでFirebaseには書かない
+let repDraft = null;
+
+// ── チップ（押して選ぶボタン）を並べる ──
+function buildChips(el, items, isOn, onTap, small) {
+  el.innerHTML = '';
+  items.forEach(v => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (small ? ' sm' : '') + (isOn(v) ? ' on' : '');
+    b.textContent = typeof v === 'number' ? (v === 0 ? '休憩なし' : v + '分') : v;
+    b.addEventListener('click', () => { onTap(v); renderRepForm(); });
+    el.appendChild(b);
+  });
+}
+
+// ── 収穫の行 ──
+function buildHarvestRows() {
+  const wrap = document.getElementById('repHarvest');
+  wrap.innerHTML = '';
+  repDraft.harvest.forEach((h, i) => {
+    const card = document.createElement('div'); card.className = 'row-card';
+
+    const chips = document.createElement('div'); chips.className = 'chips';
+    CROPS.forEach(c => {
+      const b = document.createElement('button');
+      b.className = 'chip sm' + (h.crop === c ? ' on' : '');
+      b.textContent = c;
+      b.addEventListener('click', () => { repDraft.harvest[i].crop = c; renderRepForm(); });
+      chips.appendChild(b);
+    });
+    card.appendChild(chips);
+
+    const row = document.createElement('div'); row.className = 'row-flex';
+    const crop = document.createElement('input');
+    crop.className = 'rep-inp'; crop.placeholder = '作物名'; crop.value = h.crop || '';
+    crop.addEventListener('input', e => { repDraft.harvest[i].crop = e.target.value; });
+    const kg = document.createElement('input');
+    kg.className = 'rep-inp kg-inp'; kg.type = 'number'; kg.inputMode = 'decimal';
+    kg.placeholder = 'kg'; kg.value = h.kg || '';
+    kg.addEventListener('input', e => { repDraft.harvest[i].kg = e.target.value; });
+    const del = document.createElement('button');
+    del.className = 'del-x'; del.textContent = '×';
+    del.addEventListener('click', () => { repDraft.harvest.splice(i, 1); renderRepForm(); });
+    row.appendChild(crop); row.appendChild(kg); row.appendChild(del);
+    card.appendChild(row);
+
+    const dchips = document.createElement('div'); dchips.className = 'chips'; dchips.style.marginTop = '7px';
+    DESTS.forEach(v => {
+      const b = document.createElement('button');
+      b.className = 'chip sm' + (h.dest === v ? ' on' : '');
+      b.textContent = v;
+      b.addEventListener('click', () => { repDraft.harvest[i].dest = (h.dest === v ? '' : v); renderRepForm(); });
+      dchips.appendChild(b);
+    });
+    card.appendChild(dchips);
+    wrap.appendChild(card);
+  });
+}
+
+// ── 農薬・肥料の行（法定記録の項目にそろえる） ──
+function buildChemRows() {
+  const wrap = document.getElementById('repChem');
+  wrap.innerHTML = '';
+  repDraft.chem.forEach((c, i) => {
+    const card = document.createElement('div'); card.className = 'row-card';
+
+    const kinds = document.createElement('div'); kinds.className = 'chips';
+    ['農薬', '肥料'].forEach(k => {
+      const b = document.createElement('button');
+      b.className = 'chip sm' + (c.kind === k ? ' on' : '');
+      b.textContent = k;
+      b.addEventListener('click', () => { repDraft.chem[i].kind = k; renderRepForm(); });
+      kinds.appendChild(b);
+    });
+    card.appendChild(kinds);
+
+    if (c.kind === '農薬') {
+      const named = document.createElement('div'); named.className = 'chips'; named.style.marginTop = '7px';
+      CHEMS.forEach(n => {
+        const b = document.createElement('button');
+        b.className = 'chip sm' + (c.name === n ? ' on' : '');
+        b.textContent = n;
+        b.addEventListener('click', () => { repDraft.chem[i].name = n; renderRepForm(); });
+        named.appendChild(b);
+      });
+      card.appendChild(named);
+    }
+
+    const row = document.createElement('div'); row.className = 'row-flex';
+    const nm = document.createElement('input');
+    nm.className = 'rep-inp'; nm.placeholder = c.kind === '肥料' ? '肥料名' : '農薬名';
+    nm.value = c.name || '';
+    nm.addEventListener('input', e => { repDraft.chem[i].name = e.target.value; });
+    const del = document.createElement('button');
+    del.className = 'del-x'; del.textContent = '×';
+    del.addEventListener('click', () => { repDraft.chem.splice(i, 1); renderRepForm(); });
+    row.appendChild(nm); row.appendChild(del);
+    card.appendChild(row);
+
+    const g = document.createElement('div'); g.className = 'grid2';
+    const amt = document.createElement('input');
+    amt.className = 'rep-inp';
+    amt.placeholder = c.kind === '肥料' ? '使用量（例 20kg）' : '希釈倍数（例 1000倍）';
+    amt.value = c.amount || '';
+    amt.addEventListener('input', e => { repDraft.chem[i].amount = e.target.value; });
+    const tg = document.createElement('input');
+    tg.className = 'rep-inp'; tg.placeholder = '対象作物'; tg.value = c.target || '';
+    tg.addEventListener('input', e => { repDraft.chem[i].target = e.target.value; });
+    g.appendChild(amt); g.appendChild(tg);
+    card.appendChild(g);
+    wrap.appendChild(card);
+  });
+}
+
+// ── 日報フォームを描き直す ──
+function renderRepForm() {
+  const r = repDraft;
+
+  const sv = document.getElementById('repStartV');
+  sv.textContent = r.start || '--:--';
+  sv.className = 'time-disp' + (r.start ? '' : ' empty');
+  const ev = document.getElementById('repEndV');
+  ev.textContent = r.end || '--:--';
+  ev.className = 'time-disp' + (r.end ? '' : ' empty');
+
+  buildChips(document.getElementById('repBreak'), BREAKS,
+    v => r.breakMin === v, v => { r.breakMin = v; }, true);
+
+  const h = calcHours(r);
+  const box = document.getElementById('repHours');
+  if (h > 0) {
+    const people = countMaru(modalDay);
+    box.style.display = 'block';
+    box.innerHTML = '稼働 <b>' + h + '</b> 時間' +
+      (people > 0 ? ' 　×　出勤 ' + people + '人　＝　のべ <b>' + Math.round(h * people * 100) / 100 + '</b> 人時' : '');
+  } else {
+    box.style.display = 'none';
+  }
+
+  buildChips(document.getElementById('repField'), FIELDS,
+    v => r.field === v, v => { r.field = (r.field === v ? '' : v); });
+  buildChips(document.getElementById('repWork'), WORKS,
+    v => r.work.includes(v),
+    v => { const i = r.work.indexOf(v); if (i >= 0) r.work.splice(i, 1); else r.work.push(v); }, true);
+
+  const wf = document.getElementById('repWorkFree');
+  if (document.activeElement !== wf) wf.value = r.workFree || '';
+
+  buildHarvestRows();
+  buildChemRows();
+}
+
+// ── 時刻えらび ──
+let timeTarget = null;
+function openTime(which) {
+  timeTarget = which;
+  document.getElementById('timeTitle').textContent = which === 'start' ? '開始時刻' : '終了時刻';
+  const cur = repDraft[which] || '';
+
+  const hw = document.getElementById('timeHours'); hw.innerHTML = '';
+  for (let h = 5; h <= 21; h++) {
+    const b = document.createElement('button');
+    const on = cur.startsWith(String(h).padStart(2, '0') + ':');
+    b.className = 'chip' + (on ? ' on' : '');
+    b.style.height = '52px'; b.style.padding = '0'; b.style.fontSize = '18px';
+    b.textContent = h;
+    b.addEventListener('click', () => {
+      const m = cur ? cur.split(':')[1] : '00';
+      repDraft[which] = String(h).padStart(2, '0') + ':' + m;
+      renderRepForm(); openTime(which);
+    });
+    hw.appendChild(b);
+  }
+
+  const mw = document.getElementById('timeMins'); mw.innerHTML = '';
+  ['00', '30'].forEach(m => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (cur.endsWith(':' + m) ? ' on' : '');
+    b.style.height = '52px'; b.style.padding = '0'; b.style.fontSize = '18px';
+    b.textContent = ':' + m;
+    b.addEventListener('click', () => {
+      const hh = cur ? cur.split(':')[0] : String(new Date().getHours()).padStart(2, '0');
+      repDraft[which] = hh + ':' + m;
+      renderRepForm(); closeTime();   // 分まで決まれば入力完了
+    });
+    mw.appendChild(b);
+  });
+
+  document.getElementById('timeOverlay').className = 'sheet-overlay open';
+}
+function closeTime() { document.getElementById('timeOverlay').className = 'sheet-overlay'; timeTarget = null; }
+document.getElementById('repStart').addEventListener('click', () => openTime('start'));
+document.getElementById('repEnd').addEventListener('click', () => openTime('end'));
+document.getElementById('timeCancel').addEventListener('click', closeTime);
+document.getElementById('timeOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('timeOverlay')) closeTime();
+});
+document.getElementById('timeNow').addEventListener('click', () => {
+  const d = new Date();
+  const m = d.getMinutes() < 15 ? '00' : d.getMinutes() < 45 ? '30' : '00';
+  const h = d.getMinutes() < 45 ? d.getHours() : d.getHours() + 1;
+  repDraft[timeTarget] = String(h).padStart(2, '0') + ':' + m;
+  renderRepForm(); closeTime();
+});
+document.getElementById('timeClear').addEventListener('click', () => {
+  repDraft[timeTarget] = ''; renderRepForm(); closeTime();
+});
+
+// ── 音声入力（手が汚れていても書ける） ──
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recog = null, recBtn = null;
+document.querySelectorAll('[data-mic]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (!SR) { alert('この端末は音声入力に対応していません。キーボードで入力してください。'); return; }
+    if (recog) { recog.stop(); return; }
+    const target = document.getElementById(btn.dataset.mic);
+    recog = new SR();
+    recog.lang = 'ja-JP';
+    recog.interimResults = false;
+    recog.continuous = false;
+    recBtn = btn; btn.classList.add('rec');
+    recog.onresult = e => {
+      const txt = e.results[0][0].transcript;
+      target.value = (target.value ? target.value + ' ' : '') + txt;
+      target.dispatchEvent(new Event('input'));
+    };
+    recog.onerror = e => {
+      if (e.error === 'not-allowed') alert('マイクが許可されていません。ブラウザの設定から許可してください。');
+    };
+    recog.onend = () => { if (recBtn) recBtn.classList.remove('rec'); recog = null; recBtn = null; };
+    recog.start();
+  });
+});
+
+// ── 収穫・農薬の行を足す ──
+document.getElementById('addHarvest').addEventListener('click', () => {
+  repDraft.harvest.push({ crop: '', kg: '', dest: '' }); renderRepForm();
+});
+document.getElementById('addChem').addEventListener('click', () => {
+  repDraft.chem.push({ kind: '農薬', name: '', amount: '', target: '' }); renderRepForm();
+});
+document.getElementById('repWorkFree').addEventListener('input', e => { repDraft.workFree = e.target.value; });
+
+// ═══════════════════════════════════════════
+//  見える化（記録タブ）
+// ═══════════════════════════════════════════
+let statsOpen = false;
+
+function monthReports() {
+  const days = new Date(year, month + 1, 0).getDate();
+  const out = [];
+  for (let d = 1; d <= days; d++) {
+    const r = (dbData.reports || {})[ak(d)];
+    if (r) out.push({ d, r });
+  }
+  return out;
+}
+
+function renderStats() {
+  const wrap = document.getElementById('statsWrap');
+  const list = monthReports();
+  const days = new Date(year, month + 1, 0).getDate();
+
+  let hours = 0, manHours = 0, workDays = 0;
+  const byCrop = {};
+  const chemLog = [];
+  list.forEach(({ d, r }) => {
+    const h = calcHours(r);
+    if (h > 0) { hours += h; manHours += h * Math.max(countMaru(d), 1); workDays++; }
+    (r.harvest || []).forEach(x => {
+      const kg = parseFloat(x.kg);
+      if (x.crop && kg > 0) byCrop[x.crop] = (byCrop[x.crop] || 0) + kg;
+    });
+    (r.chem || []).forEach(c => { if (c.name) chemLog.push({ d, ...c, field: r.field || '' }); });
+  });
+  // 出勤日数（○が1つでも付いた日）
+  let attDays = 0;
+  for (let d = 1; d <= days; d++) if (countMaru(d) > 0) attDays++;
+
+  const totalKg = Object.values(byCrop).reduce((a, b) => a + b, 0);
+  const crops = Object.entries(byCrop).sort((a, b) => b[1] - a[1]);
+  const maxKg = crops.length ? crops[0][1] : 1;
+
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const r1 = n => Math.round(n * 10) / 10;
+
+  let html = '<div class="stat-card">';
+  html += '<div class="stat-h">' + (month + 1) + '月のまとめ</div>';
+  html += '<div class="stat-grid">' +
+    '<div class="stat-box"><div class="v">' + attDays + '</div><div class="l">出勤した日</div></div>' +
+    '<div class="stat-box"><div class="v">' + r1(hours) + '</div><div class="l">作業時間 (h)</div></div>' +
+    '<div class="stat-box"><div class="v">' + r1(manHours) + '</div><div class="l">のべ人時</div></div>' +
+    '<div class="stat-box"><div class="v">' + r1(totalKg) + '</div><div class="l">収穫 (kg)</div></div>' +
+    '</div>';
+
+  html += '<div class="stat-h">作物ごとの収穫</div>';
+  if (!crops.length) {
+    html += '<div class="empty-msg">まだ収穫の記録がありません</div>';
+  } else {
+    crops.forEach(([c, kg]) => {
+      html += '<div class="bar-row"><div class="bar-top"><span>' + esc(c) + '</span><b>' + r1(kg) + ' kg</b></div>' +
+        '<div class="bar-bg"><div class="bar-fill" style="width:' + Math.max(4, kg / maxKg * 100) + '%"></div></div></div>';
+    });
+  }
+  html += '</div>';
+
+  html += '<div class="stat-card"><div class="stat-h">農薬・肥料の使用記録</div>';
+  if (!chemLog.length) {
+    html += '<div class="empty-msg">まだ記録がありません</div>';
+  } else {
+    chemLog.forEach(c => {
+      html += '<div class="chem-row"><span class="d">' + (month + 1) + '/' + c.d + '</span>　' +
+        esc(c.kind) + '　<b>' + esc(c.name) + '</b>' +
+        '<div class="m">' + [c.amount, c.target, c.field].filter(Boolean).map(esc).join('　/　') + '</div></div>';
+    });
+  }
+  html += '<button class="csv-btn" id="csvChem">🧪 農薬使用記録をCSVで出す</button>';
+  html += '<button class="csv-btn sub" id="csvAll">📋 栽培記録をCSVで出す</button>';
+  html += '</div>';
+
+  wrap.innerHTML = html;
+  const cc = document.getElementById('csvChem'); if (cc) cc.addEventListener('click', exportChemCsv);
+  const ca = document.getElementById('csvAll');  if (ca) ca.addEventListener('click', exportAllCsv);
+}
+
+// ── CSV書き出し ──
+function downloadCsv(name, rows) {
+  const body = rows.map(r => r.map(v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+  // Excelで文字化けしないようBOMを付ける
+  const blob = new Blob(['﻿' + body], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+function exportChemCsv() {
+  const rows = [['使用年月日', '使用場所（圃場）', '対象作物', '種別', '農薬・肥料の名称', '希釈倍数・使用量', '使用者']];
+  const user = (dbData.names || [])[0] || '';
+  monthReports().forEach(({ d, r }) => {
+    (r.chem || []).forEach(c => {
+      if (!c.name) return;
+      rows.push([`${year}/${month + 1}/${d}`, r.field || '', c.target || '', c.kind || '', c.name, c.amount || '', user]);
+    });
+  });
+  if (rows.length === 1) { alert('この月には農薬・肥料の記録がありません。'); return; }
+  downloadCsv(`農薬使用記録_${year}年${month + 1}月.csv`, rows);
+}
+function exportAllCsv() {
+  const rows = [['日付', '曜日', '出勤人数', '開始', '終了', '休憩(分)', '作業時間(h)', 'のべ人時', '圃場', '作業内容', '収穫', '農薬・肥料', 'メモ']];
+  monthReports().forEach(({ d, r }) => {
+    const h = calcHours(r), p = countMaru(d);
+    rows.push([
+      `${year}/${month + 1}/${d}`, DAYS[new Date(year, month, d).getDay()], p,
+      r.start || '', r.end || '', r.breakMin || 0, h || '', h ? Math.round(h * Math.max(p, 1) * 100) / 100 : '',
+      r.field || '',
+      [...(r.work || []), r.workFree].filter(Boolean).join('・'),
+      (r.harvest || []).filter(x => x.crop).map(x => `${x.crop}${x.kg ? ' ' + x.kg + 'kg' : ''}${x.dest ? '(' + x.dest + ')' : ''}`).join('・'),
+      (r.chem || []).filter(x => x.name).map(x => `${x.name}${x.amount ? ' ' + x.amount : ''}${x.target ? '(' + x.target + ')' : ''}`).join('・'),
+      (getCom(d) || '').replace(/\r?\n/g, ' ')
+    ]);
+  });
+  if (rows.length === 1) { alert('この月にはまだ記録がありません。'); return; }
+  downloadCsv(`栽培記録_${year}年${month + 1}月.csv`, rows);
+}
+
+// ── 記録タブの切替 ──
+document.getElementById('statsBtn').addEventListener('click', () => {
+  statsOpen = !statsOpen;
+  document.getElementById('calWrap').style.display = statsOpen ? 'none' : 'block';
+  document.getElementById('statsWrap').style.display = statsOpen ? 'block' : 'none';
+  document.getElementById('statsBtn').textContent = statsOpen ? '📅 カレンダー' : '📊 記録';
+  if (statsOpen) renderStats();
+  document.getElementById('scrollBody').scrollTo(0, 0);
+});
+
 </script>
 </body>
 </html>
