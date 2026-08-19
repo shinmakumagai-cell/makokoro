@@ -207,6 +207,50 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;min-height
 .csv-btn:active{transform:scale(.98)}
 .csv-btn.sub{background:#fff;color:var(--green);border:1.5px solid var(--green-mid)}
 .empty-msg{text-align:center;color:var(--text3);font-size:13px;padding:24px 0}
+
+/* ══════════════════════════════════════════════════════
+   指で押しやすくする（見た目は変えない）
+   小さいボタンの当たり判定だけを 44px まで広げる。
+   ::after の透明な板を上にかぶせる方式なので、
+   ボタンの大きさ・色・配置は一切変わらない。
+   ══════════════════════════════════════════════════════ */
+@media (pointer: coarse) {
+  .task-del, .complete-btn, .com-btn,
+  .stats-btn, .notif-btn, .add-btn { position: relative; }
+
+  .task-del::after, .complete-btn::after, .com-btn::after,
+  .stats-btn::after, .notif-btn::after, .add-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; height: 100%;
+    min-width: 44px; min-height: 44px;
+  }
+
+  /* 削除の × は「完了」の隣にあるので、誤タップしないよう間隔を空ける */
+  .task-del { margin-left: 4px; }
+  .task-del::after { min-width: 40px; }
+
+  /* 名前の入力欄。タップして直せることが分かりにくいので押しやすくする */
+  .name-input { padding: 9px 2px; }
+
+  /* 出欠の丸ボタン。高さ40pxのまま、当たり判定だけ縦に少し広げる */
+  .att-btn { position: relative; }
+  .att-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 0;
+    transform: translateY(-50%);
+    width: 100%; height: 46px;
+  }
+}
+
+/* 横向き・小さい端末で、月の見出しが詰まらないように */
+@media (max-width: 340px) {
+  .month-label { font-size: 18px; }
+  .chip { padding: 0 10px; font-size: 12px; }
+}
 </style>
 </head>
 <body>
