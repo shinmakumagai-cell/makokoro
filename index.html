@@ -415,6 +415,8 @@ body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;min-height
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-check-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
 <script>
 
@@ -432,6 +434,14 @@ const VAPID_KEY = "BO0lZx1BOEOWRxYILVEWuI5zKttdZ7XFu4gIVuc5nhCG9gHaPH_Kxct478ufh
 
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+/* App Check：このアプリからのアクセスだけを通す。
+   匿名ログインは誰でも取れてしまうので、こちらで「本物のアプリか」を確かめる。 */
+try {
+  firebase.appCheck().activate("6LdWt6ktAAAAANdfkmsxuut5uq7fK79PXwmL_4R1", true);
+} catch (e) { console.error("App Checkの初期化に失敗:", e); }
+
+/* 匿名ログイン：データベースを「ログインした人だけ」に閉じるための下準備。 */
+firebase.auth().signInAnonymously().catch((e)=>{ console.error("匿名ログイン失敗:", e); });
 const dbRef = db.ref('kinntai');
 const messaging = firebase.messaging();
 
