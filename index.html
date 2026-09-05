@@ -438,7 +438,11 @@ const db = firebase.database();
    （2026-09-05 実測。有料プランに上げるときに戻す） */
 
 /* 匿名ログイン：データベースを「ログインした人だけ」に閉じるための下準備。 */
-firebase.auth().signInAnonymously().catch((e)=>{ console.error("匿名ログイン失敗:", e); });
+/* データベースは「ログインした人だけ」に閉じてあるので、
+   ログインが終わってからデータを読みにいく。
+   （待たずに読むと、その瞬間だけ弾かれて「接続エラー」になる） */
+const authReady = firebase.auth().signInAnonymously()
+  .catch((e) => { console.error("匿名ログイン失敗:", e); });
 const dbRef = db.ref('kinntai');
 const messaging = firebase.messaging();
 
@@ -508,7 +512,8 @@ function notifyLocal(title, body) {
   }
 }
 
-// ── Firebase監視 ──
+// ── Firebase監視（ログインが終わってから始める）──
+authReady.then(() => {
 dbRef.on('value', (snap) => {
   const data = snap.val();
   const prevData = JSON.parse(JSON.stringify(dbData));
@@ -549,7 +554,8 @@ dbRef.on('value', (snap) => {
   document.getElementById('loadingEl').style.display = 'none';
   document.getElementById('calWrap').style.display = 'block';
   setSyncDot('ok');
-}, () => setSyncDot('err'));
+}, (e) => { console.error("読み取り失敗:", e); setSyncDot('err'); });
+});
 
 // ── 保存 ──
 function saveData() {
